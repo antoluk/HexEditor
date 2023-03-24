@@ -1,0 +1,60 @@
+//
+// Created by antoluk on 12.3.23.
+//
+#include "signatures.h"
+
+int signatures_init(struct sign *signatures)
+{
+    FILE* Signatures_file= fopen("signatures.txt","r");
+    if(!Signatures_file)
+    {
+        printf("File with signatures cannot be open");
+        exit(1);
+    }
+    int sign_arr_size=0;
+    while (1)
+    {
+        if(fgets(signatures[sign_arr_size].file_extention, 100, Signatures_file) == NULL)break;
+        fgets(signatures[sign_arr_size].file_signature, 100, Signatures_file);
+        sign_arr_size++;
+    }
+    fclose(Signatures_file);
+    return sign_arr_size;
+}
+
+unsigned char* signcheck()
+{
+    FILE* fp;
+   unsigned char* extension= (unsigned char *)calloc(100,sizeof(unsigned char ));
+    struct sign signatures[50];
+    int sign_arr_size= signatures_init(signatures);
+    unsigned long size;
+    unsigned char buf[100];
+    unsigned char signbuf[8];
+    fp= fopen("m2test.png","rb");
+    if(!fp)
+    {
+        printf("file can't be open\n");
+        exit(1);
+    }
+    for(int i=0;i<sign_arr_size;i++)
+    {
+        strcpy(extension,"");
+        size= fread(buf,sizeof(char), strlen(signatures[i].file_signature)/2,fp);
+        for(int j=0;j<size;j++)
+        {     if(buf[j]>255)buf[j]-=255;
+            sprintf(signbuf,"%02X",buf[j]);
+            strcat(extension,signbuf);
+        }
+        rewind(fp);
+        if(!strncmp(extension,signatures[i].file_signature, strlen(signatures[i].file_signature)-1))
+        {
+            strcpy(extension,signatures[i].file_extention);
+            break;
+        }
+        strcpy(extension,"unknown");
+    }
+    printf("file extension is %s",extension);
+    fclose(fp);
+    return extension;
+}
