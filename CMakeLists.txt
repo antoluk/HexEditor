@@ -3,4 +3,4 @@ project(HexEditorSecondTry C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(HexEditorSecondTry main.c signatures.h signatures.c analyse.c analyse.h png_analyse.c png_analyse.h graphic.c graphic.h)
+add_executable(HexEditorSecondTry main.c signatures.h signatures.c png_analyse.c png_analyse.h event_handler.c event_handler.h)

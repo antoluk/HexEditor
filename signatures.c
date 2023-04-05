@@ -3,6 +3,8 @@
 //
 #include "signatures.h"
 
+#define U2C (char*)
+
 int signatures_init(struct sign *signatures)
 {
     FILE* Signatures_file= fopen("signatures.txt","r");
@@ -39,20 +41,20 @@ unsigned char* signcheck()
     }
     for(int i=0;i<sign_arr_size;i++)
     {
-        strcpy(extension,"");
+        strcpy(U2C extension,"");
         size= fread(buf,sizeof(char), strlen(signatures[i].file_signature)/2,fp);
         for(int j=0;j<size;j++)
         {     if(buf[j]>255)buf[j]-=255;
-            sprintf(signbuf,"%02X",buf[j]);
-            strcat(extension,signbuf);
+            sprintf(U2C signbuf,"%02X",buf[j]);
+            strcat(U2C extension,U2C signbuf);
         }
         rewind(fp);
-        if(!strncmp(extension,signatures[i].file_signature, strlen(signatures[i].file_signature)-1))
+        if(!strncmp(U2C extension,signatures[i].file_signature, strlen(signatures[i].file_signature)-1))
         {
-            strcpy(extension,signatures[i].file_extention);
+            strcpy(U2C extension,signatures[i].file_extention);
             break;
         }
-        strcpy(extension,"unknown");
+        strcpy(U2C extension,"unknown");
     }
     printf("file extension is %s",extension);
     fclose(fp);
