@@ -10,7 +10,7 @@
 struct IHDR png_analyse() {
     FILE *fp;
     int chunk_size = 0;
-    if (!(fp = fopen("m2test.png", "rb"))) {
+    if (!(fp = fopen("test.png", "rb"))) {
         printf("file can't be open\n");
         exit(100);
     }

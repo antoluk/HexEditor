@@ -14,6 +14,7 @@ typedef struct {
 } Point;
 
 extern Point cur, ccur,inFile;
+extern int dump_offset;
 
 int event();
 int kbhit();

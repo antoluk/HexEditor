@@ -13,6 +13,10 @@ WINDOW *main_win = NULL, *analyse_win = NULL;
 #define STYLE_CURSOR 14
 struct stat file_stat;
 Point cur, ccur,inFile;
+int dump_offset=0;
+extern int letter;
+char bufer[22][82];
+
 FILE *fp;
 void print_with_color(Point p, unsigned char c);
 
@@ -22,20 +26,15 @@ unsigned char print_dump(Point cur);
 
 void printIHDR(struct IHDR IHDR);
 
-void running();
+void change_file(int symbol);
+
+void get_dump();
 
 int main() {
     struct IHDR IHDR;
-
+    int key=-2;
     struct sign signatures[50];
     bool flags[10];
-
-    if (!(fp = fopen("m2test.png", "rb"))) {
-        printf("file can't be open\n");
-        exit(100);
-    }
-    fstat (fileno (fp), &file_stat);
-    fclose(fp);
     int sign_size = signatures_init(signatures);
     const unsigned char *ext = signcheck();
     unsigned char cur_ch;
@@ -73,7 +72,15 @@ int main() {
         wrefresh(main_win);
         flushinp();
         fflush(stdin);
-        if(!event())break;
+        key=event();
+        if(key==-1)
+        {
+            break;
+        } else if(key>0)
+        {
+            change_file(key);
+            key=-2;
+        }
     }
     endwin();
 
@@ -89,17 +96,25 @@ void win_init() {
 }
 
 unsigned char print_dump(Point cur) {
-    if(inFile.y>file_stat.st_size-19*16)inFile.y-=16;
+    //if(inFile.y>file_stat.st_size-19*16)inFile.y-=16;
     unsigned long size;
-    int fx = inFile.y/16, x = 21, cur_str = 1;
+    int fx = dump_offset, x = 21, cur_str = 1;
     unsigned char *buf = (unsigned char *) calloc(STRLEN, sizeof(unsigned char));
     unsigned char cur_ch;
     if (!buf)exit(50);
-    if (!(fp = fopen("m2test.png", "rb"))) {
+    if (!(fp = fopen("cringe.txt", "rb"))) {
         printf("file can't be open\n");
         exit(100);
     }
-    fseek(fp,inFile.y,0);
+    fseek(fp,0,2);
+    if(inFile.y> ftell(fp))
+    {
+        inFile.y-=16;
+        dump_offset-=16;
+
+    }
+    fseek(fp,dump_offset,0);
+    mvwprintw(main_win, 0, 1, "%08X", inFile.y+inFile.x);
     while (((size = fread(buf, sizeof(char), STRLEN, fp)) > 0) && x > 1) {
         mvwprintw(main_win, cur_str, 1, "%08X: ", fx);
         for (int i = 0; i < size; i++) {
@@ -166,4 +181,48 @@ void print_with_color(Point p, unsigned char c) {
     wattron(main_win, COLOR_PAIR(STYLE_CURSOR));
     mvwprintw(main_win, p.y, p.x,"%c", c);
     wattroff(main_win, COLOR_PAIR(STYLE_CURSOR));
+}
+
+void change_file(int symbol)
+{
+    int read_from_file=0;
+    if (!(fp = fopen("cringe.txt", "rb+"))) {
+        printf("file can't be open\n");
+        exit(100);
+    }
+    char hex[3];
+    fseek(fp,inFile.y+inFile.x,0);
+    fscanf(fp,"%c",&read_from_file);
+    sprintf(hex,"%02X",read_from_file);
+    fseek(fp,-1,1);
+    printf(" %s ",hex);
+    hex[letter-1]=symbol;
+    symbol=strtol(hex,NULL,16);
+    //printf(" %d ",symbol);
+    int read=0;
+  fwrite(&symbol,1,1,fp);
+
+    fclose(fp);
+}
+
+void get_dump()
+{
+    unsigned long size;
+    int fx = dump_offset, x = 21, cur_str = 1;
+    if (!(fp = fopen("cringe.txt", "rb"))) {
+        printf("file can't be open\n");
+        exit(100);
+    }
+    fseek(fp,0,2);
+    if(inFile.y> ftell(fp))
+    {
+        inFile.y-=16;
+        dump_offset-=16;
+    }
+    fseek(fp,dump_offset,0);
+    int j=0;
+    for(int i=0;i<20;i++) {
+        if (fread(bufer[j++], sizeof(char), STRLEN, fp) > 0)break;
+    }
+    fclose(fp);
 }

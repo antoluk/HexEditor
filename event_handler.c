@@ -17,7 +17,8 @@ int event()
                if(cur.y<20) {
                    cur.y++;
                    ccur.y++;
-               }else inFile.y+=16;
+               }else dump_offset+=16;
+               inFile.y+=16;
                break;
            case KEY_UP:
            {
@@ -25,7 +26,11 @@ int event()
                {
                    cur.y--;
                    ccur.y--;
-               }else if (inFile.y>0)
+               }else if (dump_offset>0)
+               {
+                   dump_offset-=16;
+               }
+               if(inFile.y>0)
                {
                    inFile.y-=16;
                }
@@ -40,7 +45,7 @@ int event()
                    {
                        ccur.x--;
                        cur.x--;
-                       inFile.y--;
+                       inFile.x--;
                        letter=2;
                    }else letter=1;
                    cur.x--;
@@ -55,20 +60,24 @@ int event()
                    {
                        ccur.x++;
                        cur.x++;
-                       inFile.y++;
+                       inFile.x++;
                        letter=1;
                    }else letter=2;
                    cur.x++;
                }
                break;
            }
+
            case 'q':
-               return 0;
+               return -1;
            default:
+
+                   return key;
+
                break;
        }
    }
-    return 1;
+    return -2;
 }
 
 int kbhit()
