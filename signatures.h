@@ -9,12 +9,13 @@
 #include <stdio.h>
 #include <string.h>
 
-struct sign
-{
-   char file_extention[100];
-   char file_signature[100];
+struct sign {
+    char file_extention[100];
+    char file_signature[100];
 };
 
 int signatures_init(struct sign *signatures);
-unsigned char* signcheck();
+
+unsigned char *signcheck();
+
 #endif //HEXEDITORSECONDTRY_SIGNATURES_H

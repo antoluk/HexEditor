@@ -8,14 +8,25 @@
 #include <unistd.h>
 #include <ncurses.h>
 
+#define STYLE_CURSOR 14
+
 typedef struct {
     int x;
     int y;
 } Point;
+typedef enum {
+    HEX,
+    ASCII
+} change;
 
-extern Point cur, ccur,inFile;
+extern change change_mod;
+extern Point cur, ccur, inFile;
 extern int dump_offset;
 
 int event();
+
 int kbhit();
+
+void go_to();
+
 #endif //HEXEDITORSECONDTRY_EVENT_HANDLER_H

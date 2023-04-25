@@ -28,14 +28,13 @@ struct IHDR png_analyse() {
         unsigned char *chunk = (unsigned char *) calloc(chunk_size + 1, sizeof(unsigned char));
         fread(chunk, sizeof(unsigned char), chunk_size + 1, fp);
 
-       return IHDR_analyse(chunk);
+        return IHDR_analyse(chunk);
     }
     struct IHDR fail;
-    fail.x=0;
-    fail.y=0;
+    fail.x = 0;
+    fail.y = 0;
     return fail;
 }
-
 
 
 struct IHDR IHDR_analyse(unsigned char *chunk_buf) {
@@ -44,7 +43,6 @@ struct IHDR IHDR_analyse(unsigned char *chunk_buf) {
     unsigned char resX_str[8] = "";
     unsigned char buf[4];
     unsigned char byte_str[2];
-    int byte;
     int i = 0;
     for (; i < 4; i++) {
         sprintf(U2C buf, "%02X", chunk_buf[i]);
