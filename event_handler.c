@@ -5,6 +5,8 @@
 
 int letter = 1;
 
+extern int file_size;
+
 int event() {
     if (kbhit()) {
         fflush(stdin);
@@ -12,62 +14,17 @@ int event() {
 
         switch (key) {
             case KEY_DOWN:
-
-                if (cur.y < 20) {
-                    cur.y++;
-                    ccur.y++;
-                } else dump_offset += 16;
-                inFile.y += 16;
+                move_down();
                 break;
-            case KEY_UP: {
-                if (cur.y > 1) {
-                    cur.y--;
-                    ccur.y--;
-                } else if (dump_offset > 0) {
-                    dump_offset -= 16;
-                }
-                if (inFile.y > 0) {
-                    inFile.y -= 16;
-                }
-
-            }
+            case KEY_UP:
+                move_up();
                 break;
             case KEY_LEFT: {
-                for (int i = 0; i < 2; i++) {
-                    if (cur.x > 12) {
-                        if (letter == 1) {
-                            ccur.x--;
-                            cur.x--;
-                            inFile.x--;
-                            letter = 2;
-                        } else letter = 1;
-                        cur.x--;
-                    }
-                    if (change_mod == HEX)break;
-                }
+                move_left();
                 break;
             }
             case KEY_RIGHT:
-                for (int i = 0; i < 2; i++) {
-                    if (cur.x < 58) {
-                        if (letter == 2) {
-                            ccur.x++;
-                            cur.x++;
-                            inFile.x++;
-                            letter = 1;
-                        } else letter = 2;
-                        cur.x++;
-                    }
-                    if (change_mod == HEX)break;
-                    else
-                    {
-                        if(cur.x==58) {
-                            cur.x--;
-                            letter=1;
-                        }
-                    }
-
-                }
+                move_right();
                 break;
 
             case KEY_F(4):
@@ -128,7 +85,82 @@ void go_to() {
         refresh();
         wrefresh(go_to);
         fflush(stdin);
-    } while ((inp = getch()) != KEY_F(1));
+    } while ((inp = getch()) != '\n');
+    long adr= strtol(address,NULL,16);
+    printf("%ld",adr);
+    if(adr<file_size) {
+        while (inFile.y < adr) {
+            move_down();
+        }
+        while (inFile.y > adr) {
+            move_up();
+        }
+        while (inFile.x > adr % 16) {
+            move_left();
+        }
+        while (inFile.x < adr % 16) {
+            move_right();
+        }
+    }
+
     curs_set(1);
     delwin(go_to);
 }
+
+void move_left() {
+    for (int i = 0; i < 2; i++) {
+        if (cur.x > 12) {
+            if (letter == 1) {
+                ccur.x--;
+                cur.x--;
+                inFile.x--;
+                letter = 2;
+            } else letter = 1;
+            cur.x--;
+        }
+        if (change_mod == HEX)break;
+    }
+}
+
+void move_right() {
+    for (int i = 0; i < 2; i++) {
+        if (cur.x < 58) {
+            if (letter == 2) {
+                ccur.x++;
+                cur.x++;
+                inFile.x++;
+                letter = 1;
+            } else letter = 2;
+            cur.x++;
+        }
+        if (change_mod == HEX)break;
+        else {
+            if (cur.x == 58) {
+                cur.x--;
+                letter = 1;
+            }
+        }
+
+    }
+}
+
+void move_up() {
+    if (cur.y > 1) {
+        cur.y--;
+        ccur.y--;
+    } else if (dump_offset > 0) {
+        dump_offset -= 16;
+    }
+    if (inFile.y > 0) {
+        inFile.y -= 16;
+    }
+}
+
+void move_down() {
+    if (cur.y < 20) {
+        cur.y++;
+        ccur.y++;
+    } else dump_offset += 16;
+    inFile.y += 16;
+}
+

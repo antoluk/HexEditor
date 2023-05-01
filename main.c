@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "signatures.h"
 #include <ncurses.h>
-#include <unistd.h>
 #include "png_analyse.h"
 #include "event_handler.h"
 #include "menu.h"
@@ -189,7 +188,7 @@ void print_with_color(Point p, unsigned char c) {
 
 int change_file(int symbol) {
     int read_from_file = 0;
-    if (!(fp = fopen("./cringe", "rb+"))) {
+    if (!(fp = fopen("cringe.txt", "rb+"))) {
         printf("file can't be open\n");
         exit(100);
     }
@@ -211,7 +210,7 @@ int change_file(int symbol) {
 
 int get_dump() {
     unsigned long size;
-    if (!(fp = fopen("./cringe", "rb"))) {
+    if (!(fp = fopen("cringe.txt", "rb"))) {
         printf("file can't be open\n");
         exit(100);
     }

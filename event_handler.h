@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include <ncurses.h>
+#include <stdlib.h>
 
 #define STYLE_CURSOR 14
 
@@ -28,5 +29,11 @@ int event();
 int kbhit();
 
 void go_to();
+
+void move_left();
+void move_right();
+void move_up();
+void move_down();
+
 
 #endif //HEXEDITORSECONDTRY_EVENT_HANDLER_H
