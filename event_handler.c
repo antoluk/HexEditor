@@ -2,10 +2,13 @@
 // Created by antoluk on 5.4.23.
 //
 #include "event_handler.h"
+#include "stack.h"
 
 int letter = 1;
 
 extern int file_size;
+
+extern struct node *stack;
 
 int event() {
     if (kbhit()) {
@@ -26,7 +29,13 @@ int event() {
             case KEY_RIGHT:
                 move_right();
                 break;
-
+            case KEY_F(5):
+                pop(&stack);
+                if (letter == 2 && change_mod == ASCII) {
+                    cur.x--;
+                    letter = 1;
+                }
+                return -3;
             case KEY_F(4):
                 change_mod = HEX;
                 break;
@@ -86,9 +95,9 @@ void go_to() {
         wrefresh(go_to);
         fflush(stdin);
     } while ((inp = getch()) != '\n');
-    long adr= strtol(address,NULL,16);
-    printf("%ld",adr);
-    if(adr<file_size) {
+    long adr = strtol(address, NULL, 16);
+    printf("%ld", adr);
+    if (adr < file_size) {
         while (inFile.y < adr) {
             move_down();
         }
@@ -101,6 +110,7 @@ void go_to() {
         while (inFile.x < adr % 16) {
             move_right();
         }
+        if (letter == 2)move_left();
     }
 
     curs_set(1);

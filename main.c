@@ -7,11 +7,15 @@
 #include "event_handler.h"
 #include "menu.h"
 #include "globals.h"
+#include "stack.h"
+#include "file_work.h"
 
 
 change change_mod = HEX;
 
 Point cur, ccur, inFile;
+
+struct node *stack;
 
 void print_with_color(Point p, unsigned char c);
 
@@ -20,10 +24,6 @@ void win_init();
 unsigned char print_dump(int str_num);
 
 void printIHDR(struct IHDR IHDR);
-
-int change_file(int symbol);
-
-int get_dump();
 
 
 int main() {
@@ -95,7 +95,10 @@ int main() {
         } else if (key > 0) {
             changed = change_file(key);
             key = -2;
+        } else if (key == -3) {
+            changed = 1;
         }
+
     }
     endwin();
 
@@ -184,46 +187,4 @@ void print_with_color(Point p, unsigned char c) {
     wattron(main_win, COLOR_PAIR(STYLE_CURSOR));
     mvwprintw(main_win, p.y, p.x, "%c", c);
     wattroff(main_win, COLOR_PAIR(STYLE_CURSOR));
-}
-
-int change_file(int symbol) {
-    int read_from_file = 0;
-    if (!(fp = fopen("cringe.txt", "rb+"))) {
-        printf("file can't be open\n");
-        exit(100);
-    }
-    fseek(fp, inFile.y + inFile.x, 0);
-    if(change_mod==HEX) {
-        char hex[3];
-        fscanf(fp, "%c", &read_from_file);
-        fseek(fp, -1, 1);
-        sprintf(hex, "%02X", read_from_file);
-        hex[letter - 1] = (char) symbol;
-        symbol = (int) strtol(hex, NULL, 16);
-    }
-
-    fwrite(&symbol, 1, 1, fp);
-
-    fclose(fp);
-    return 1;
-}
-
-int get_dump() {
-    unsigned long size;
-    if (!(fp = fopen("cringe.txt", "rb"))) {
-        printf("file can't be open\n");
-        exit(100);
-    }
-    fseek(fp, 0, 2);
-    file_size = (int) ftell(fp);
-
-    fseek(fp, dump_offset, 0);
-    for (int j = 0; j < 20; j++) {
-        if ((last_size = (int) fread(bufer[j], sizeof(char), STRLEN, fp)) < 16) {
-            return j + 1;
-        }
-
-    }
-    fclose(fp);
-    return 20;
 }
