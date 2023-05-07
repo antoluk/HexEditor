@@ -118,6 +118,16 @@ void go_to() {
 }
 
 void move_left() {
+    if(cur.x==12&&inFile.y+inFile.x>0)
+    {   int turns;
+        if(change_mod==HEX)
+        {
+        turns=31;
+        }else turns=15;
+        move_up();
+        for(int i=0;i<turns;i++)move_right();
+        return;
+    }
     for (int i = 0; i < 2; i++) {
         if (cur.x > 12) {
             if (letter == 1) {
@@ -133,6 +143,19 @@ void move_left() {
 }
 
 void move_right() {
+    if(cur.x==58||cur.x==57&&change_mod==ASCII)
+    {
+        int turns;
+        if(change_mod==HEX)
+        {
+            turns=31;
+        }else turns=15;
+        move_down();
+        for(int i=0;i<turns;i++)move_left();
+        if(file_size<=inFile.x+inFile.y)
+        {move_left();}
+        return;
+    }
     for (int i = 0; i < 2; i++) {
         if (cur.x < 58) {
             if (letter == 2) {

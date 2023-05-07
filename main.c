@@ -9,6 +9,8 @@
 #include "globals.h"
 #include "stack.h"
 #include "file_work.h"
+#include "elf_analyse.h"
+#include <elf.h>
 
 
 change change_mod = HEX;
@@ -25,9 +27,23 @@ unsigned char print_dump(int str_num);
 
 void printIHDR(struct IHDR IHDR);
 
+void printELF(Elf32_Ehdr_s ehdr);
 
-int main() {
+
+int main(int argc, char *argv[]) {
+
+    if (argc < 2) {
+        printf("no filename in command line\n");
+        return -1;
+    }
+    if (argc > 2) {
+        printf("to much command line parameters\n");
+        return -1;
+    }
+    filename=argv[1];
+
     struct IHDR IHDR;
+    Elf32_Ehdr_s ehdr;
     int key = -2;
     struct sign signatures[50];
     bool flags[10];
@@ -38,6 +54,10 @@ int main() {
     if (!strncmp("png", (char *) ext, 3)) {
         IHDR = png_analyse();
         flags[0] = 1;
+    } else if (!strncmp("elf", (char *) ext, 3)) {
+
+        ehdr = read_elf();
+        flags[1] = 1;
     }
     win_init();
     int screen_x = 0, screen_y = 0;
@@ -71,16 +91,19 @@ int main() {
             old_offset = dump_offset;
             changed = 0;
         }
-        if (inFile.y + inFile.x > file_size - 1) {
-            inFile.y -= 16;
-            cur.y -= 1;
-            ccur.y -= 1;
+        if (inFile.y + inFile.x >= file_size) {
+            int fx = cur.x;
+            while (inFile.y + inFile.x >= file_size) {
+                move_left();
+            }
+            while (fx < cur.x)move_left();
         }
         cur_ch = print_dump(str_num);
 
         if (flags[0] == 1) {
             printIHDR(IHDR);
-        }
+        } else if (flags[1] == 1)
+            printELF(ehdr);
         print_with_color(ccur, cur_ch);
         render_menu();
         wmove(main_win, cur.y, cur.x);
@@ -153,7 +176,6 @@ unsigned char print_dump(int str_num) {
 }
 
 void printIHDR(struct IHDR IHDR) {
-    int str_num = 0;
     mvwprintw(analyse_win, 1, 1, "file extension is png ");
     wprintw(analyse_win, "%ld x %ld, ", IHDR.x, IHDR.y);
     wprintw(analyse_win, "%ld-bit", IHDR.bit_depth);
@@ -182,6 +204,91 @@ void printIHDR(struct IHDR IHDR) {
         wprintw(analyse_win, ", interlaced");
     } else wprintw(analyse_win, ", bad parameter");
 }
+
+void printELF(Elf32_Ehdr_s ehdr) {
+    switch (ehdr.class) {
+        case ELFCLASS32:
+            mvwprintw(analyse_win, 1, 1, "file is ELF32. ");
+            break;
+        case ELFCLASS64:
+            mvwprintw(analyse_win, 1, 1, "file is ELF64. ");
+            break;
+        default:
+            mvwprintw(analyse_win, 1, 1, "file is unknown.");
+            return;
+    }
+    switch (ehdr.encoding) {
+        case ELFDATA2LSB:
+            wprintw(analyse_win, "2's complement, little-endian. ");
+            break;
+        case ELFDATA2MSB:
+            wprintw(analyse_win, "2's complement, big-endian. ");
+            break;
+        default:
+            wprintw(analyse_win, "Unknown data format. ");
+            break;
+    }
+    switch (ehdr.version) {
+        case EV_CURRENT:
+            wprintw(analyse_win, "current version. ");
+            break;
+        default:
+            wprintw(analyse_win, "invalid version. ");
+    }
+    switch (ehdr.osabi) {
+        case ELFOSABI_SYSV:
+            wprintw(analyse_win, "UNIX System V ");
+            break;
+        case ELFOSABI_HPUX:
+            wprintw(analyse_win, "HP-UX ");
+            break;
+        case ELFOSABI_NETBSD:
+            wprintw(analyse_win, "NetBSD ");
+            break;
+        case ELFOSABI_LINUX:
+            wprintw(analyse_win, "Linux ");
+            break;
+        case ELFOSABI_SOLARIS:
+            wprintw(analyse_win, "Solaris ");
+            break;
+        case ELFOSABI_IRIX:
+            wprintw(analyse_win, "IRIX ");
+            break;
+        case ELFOSABI_FREEBSD:
+            wprintw(analyse_win, "FreeBSD ");
+            break;
+        case ELFOSABI_TRU64:
+            wprintw(analyse_win, "TRU64 UNIX ");
+            break;
+        case ELFOSABI_ARM:
+            wprintw(analyse_win, "ARM ");
+            break;
+        case ELFOSABI_STANDALONE:
+            wprintw(analyse_win, "embedded ABI ");
+            break;
+        default:
+            wprintw(analyse_win, "UNIX System V ");
+    }
+    switch (ehdr.type) {
+        case ET_REL:
+            mvwprintw(analyse_win, 2, 1, "A relocatable file. ");
+            break;
+        case ET_EXEC:
+            mvwprintw(analyse_win, 2, 1, "An executable file. ");
+            break;
+        case ET_DYN:
+            mvwprintw(analyse_win, 2, 1, "A shared object. ");
+            break;
+        case ET_CORE:
+            mvwprintw(analyse_win, 2, 1, "A core file. ");
+            break;
+        default:
+            mvwprintw(analyse_win, 2, 1, "An unknown type. ");
+
+    }
+
+}
+
 
 void print_with_color(Point p, unsigned char c) {
     wattron(main_win, COLOR_PAIR(STYLE_CURSOR));

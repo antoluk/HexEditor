@@ -6,7 +6,7 @@
 
 int get_dump() {
     unsigned long size;
-    if (!(fp = fopen("cringe.txt", "rb"))) {
+    if (!(fp = fopen(filename, "rb"))) {
         printf("file can't be open\n");
         exit(100);
     }
@@ -26,7 +26,7 @@ int get_dump() {
 
 int change_file(int symbol) {
     int read_from_file = 0;
-    if (!(fp = fopen("cringe.txt", "rb+"))) {
+    if (!(fp = fopen(filename, "rb+"))) {
         printf("file can't be open\n");
         exit(100);
     }
@@ -42,5 +42,6 @@ int change_file(int symbol) {
     push(&stack, read_from_file);
     fwrite(&symbol, 1, 1, fp);
     fclose(fp);
+    move_right();
     return 1;
 }
