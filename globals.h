@@ -12,6 +12,7 @@ int dump_offset = 0;
 extern int letter;
 unsigned char bufer[20][16];
 int last_size = 0, file_size = 0;
+char* filepath;
 char* filename;
 FILE *fp;
 

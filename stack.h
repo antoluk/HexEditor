@@ -9,6 +9,7 @@
 
 extern int letter;
 extern FILE *fp;
+extern char* filename;
 struct node {
     int data;
     Point s_cur;

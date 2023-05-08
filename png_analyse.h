@@ -13,7 +13,7 @@
 
 #define PNG_sign_size 8
 
-extern char* filename;
+extern char* filepath;
 
 struct IHDR {
     long x;

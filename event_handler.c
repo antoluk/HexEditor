@@ -50,11 +50,19 @@ int event() {
                 go_to();
                 break;
             case KEY_F(1):
+                exit_win();
                 return -1;
             default:
+                if(change_mod==HEX) {
+                    if (!(key >= 48 && key <= 57 || key >= 65 && key <= 70 || key >= 97 && key <= 102))
+                        return -2;
+                }
+                    if(change_mod==ASCII)
+                    {
+                        if(!(key>=32&&key<=126))
+                            return -2;
+                    }
                 return key;
-
-                break;
         }
     }
     return -2;
@@ -71,51 +79,7 @@ int kbhit() {
     }
 }
 
-void go_to() {
-    WINDOW *go_to = newwin(6, 25, 9, 27);
-    cbreak();
-    nodelay(go_to, true);
-    char address[8] = "        ";
-    int j = 0;
-    int inp = -1;
-    curs_set(0);
-    do {
-        if (((inp >= '0' && inp <= '9') || (inp >= 'a' && inp <= 'f') || (inp >= 'A' && inp <= 'F')) && j <= 7) {
-            if (inp >= 'a' && inp <= 'f')inp -= 32;
-            address[j++] = (char) inp;
-        } else if (inp == KEY_BACKSPACE && j > 0) {
-            address[--j] = ' ';
-        }
-        box(go_to, 0, 0);
-        mvwprintw(go_to, 2, 6, "Enter address");
-        wattron(go_to, COLOR_PAIR(STYLE_CURSOR));
-        for (int i = 0; i < 8; i++)mvwprintw(go_to, 4, 8 + i, "%c", address[i]);
-        wattroff(go_to, COLOR_PAIR(STYLE_CURSOR));
-        refresh();
-        wrefresh(go_to);
-        fflush(stdin);
-    } while ((inp = getch()) != '\n');
-    long adr = strtol(address, NULL, 16);
-    printf("%ld", adr);
-    if (adr < file_size) {
-        while (inFile.y < adr) {
-            move_down();
-        }
-        while (inFile.y > adr) {
-            move_up();
-        }
-        while (inFile.x > adr % 16) {
-            move_left();
-        }
-        while (inFile.x < adr % 16) {
-            move_right();
-        }
-        if (letter == 2)move_left();
-    }
 
-    curs_set(1);
-    delwin(go_to);
-}
 
 void move_left() {
     if(cur.x==12&&inFile.y+inFile.x>0)

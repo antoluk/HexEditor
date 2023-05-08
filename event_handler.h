@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <ncurses.h>
 #include <stdlib.h>
+#include "menu.h"
 
 #define STYLE_CURSOR 14
 
@@ -27,8 +28,6 @@ extern int dump_offset;
 int event();
 
 int kbhit();
-
-void go_to();
 
 void move_left();
 

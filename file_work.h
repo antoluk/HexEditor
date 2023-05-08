@@ -15,7 +15,7 @@
 extern struct node *stack;
 extern unsigned char bufer[20][16];
 extern int last_size, file_size;
-extern char* filename;
+extern char* filepath;
 int change_file(int symbol);
 
 int get_dump();

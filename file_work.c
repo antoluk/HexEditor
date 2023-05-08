@@ -6,7 +6,7 @@
 
 int get_dump() {
     unsigned long size;
-    if (!(fp = fopen(filename, "rb"))) {
+    if (!(fp = fopen(filepath, "rb"))) {
         printf("file can't be open\n");
         exit(100);
     }
@@ -26,7 +26,7 @@ int get_dump() {
 
 int change_file(int symbol) {
     int read_from_file = 0;
-    if (!(fp = fopen(filename, "rb+"))) {
+    if (!(fp = fopen(filepath, "rb+"))) {
         printf("file can't be open\n");
         exit(100);
     }

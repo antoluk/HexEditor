@@ -21,6 +21,6 @@ typedef struct {
     short machine;
     int version2;
 } Elf32_Ehdr_s;
-extern char* filename;
+extern char* filepath;
 Elf32_Ehdr_s read_elf();
 #endif //HEXEDITORSECONDTRY_ELF_ANALYSE_H

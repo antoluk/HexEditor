@@ -13,7 +13,7 @@ struct sign {
     char file_extention[100];
     char file_signature[100];
 };
-extern char* filename;
+extern char* filepath;
 int signatures_init(struct sign *signatures);
 
 unsigned char *signcheck();

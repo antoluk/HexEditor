@@ -29,7 +29,7 @@ unsigned char *signcheck() {
     unsigned long size;
     unsigned char buf[100];
     unsigned char signbuf[8];
-    fp = fopen(filename, "rb");
+    fp = fopen(filepath, "rb");
     if (!fp) {
         printf("file can't be open\n");
         exit(1);
