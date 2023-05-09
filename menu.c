@@ -4,11 +4,12 @@
 
 #include "menu.h"
 #include "stack.h"
+
 #define STYLE_CURSOR 14
 
 
 void render_menu() {
-    int x , y , x_m ;
+    int x, y, x_m;
     int offset = strlen(filename) - 50;
     getmaxyx(stdscr, y, x);
     x_m = getmaxx(main_win);
@@ -26,7 +27,7 @@ void render_menu() {
     wmove(stdscr, y - 1, 0);
     for (int i = 0; i < x; i++)wprintw(stdscr, " ");
     wmove(stdscr, y - 1, 0);
-    wprintw(stdscr, "[F1]exit [F2]goto [F3]change ASCII [F4]change HEX [F5]back");
+    wprintw(stdscr, "[F1]exit [F2]goto [F3]change ASCII [F4]change HEX [F5]undo");
     if (change_mod == HEX)wprintw(stdscr, "     HEX change mod");
     else wprintw(stdscr, "     ASCII change mod");
     wattroff(stdscr, COLOR_PAIR(STYLE_CURSOR));
@@ -87,7 +88,6 @@ void exit_win() {
     nodelay(exit_win, true);
     char choice[8] = "yes   no";
     int save = 1;
-    int j = 0;
     int inp = -1;
     curs_set(0);
     do {
@@ -113,10 +113,10 @@ void exit_win() {
         fflush(stdin);
     } while ((inp = getch()) != '\n');
 
-if(!save) {
-    while (stack)
-        pop(&stack);
-}
+    if (!save) {
+        while (stack)
+            pop(&stack);
+    }
     curs_set(1);
     delwin(exit_win);
 }

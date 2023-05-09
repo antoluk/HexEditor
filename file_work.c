@@ -5,14 +5,13 @@
 #include "file_work.h"
 
 int get_dump() {
-    unsigned long size;
     if (!(fp = fopen(filepath, "rb"))) {
         printf("file can't be open\n");
+        endwin();
         exit(100);
     }
     fseek(fp, 0, 2);
     file_size = (int) ftell(fp);
-
     fseek(fp, dump_offset, 0);
     for (int j = 0; j < 20; j++) {
         if ((last_size = (int) fread(bufer[j], sizeof(char), STRLEN, fp)) < 16) {
@@ -28,10 +27,11 @@ int change_file(int symbol) {
     int read_from_file = 0;
     if (!(fp = fopen(filepath, "rb+"))) {
         printf("file can't be open\n");
+        endwin();
         exit(100);
     }
     fseek(fp, inFile.y + inFile.x, 0);
-    fscanf(fp, "%c", &read_from_file);
+    fscanf(fp, "%lc", &read_from_file);
     fseek(fp, -1, 1);
     if (change_mod == HEX) {
         char hex[3];

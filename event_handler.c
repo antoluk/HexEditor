@@ -6,9 +6,6 @@
 
 int letter = 1;
 
-extern int file_size;
-
-extern struct node *stack;
 
 int event() {
     if (kbhit()) {
@@ -53,15 +50,14 @@ int event() {
                 exit_win();
                 return -1;
             default:
-                if(change_mod==HEX) {
-                    if (!(key >= 48 && key <= 57 || key >= 65 && key <= 70 || key >= 97 && key <= 102))
+                if (change_mod == HEX) {
+                    if (!((key >= 48 && key <= 57) || (key >= 65 && key <= 70) || (key >= 97 && key <= 102)))
                         return -2;
                 }
-                    if(change_mod==ASCII)
-                    {
-                        if(!(key>=32&&key<=126))
-                            return -2;
-                    }
+                if (change_mod == ASCII) {
+                    if (!(key >= 32 && key <= 126))
+                        return -2;
+                }
                 return key;
         }
     }
@@ -80,16 +76,14 @@ int kbhit() {
 }
 
 
-
 void move_left() {
-    if(cur.x==12&&inFile.y+inFile.x>0)
-    {   int turns;
-        if(change_mod==HEX)
-        {
-        turns=31;
-        }else turns=15;
+    if (cur.x == 12 && inFile.y + inFile.x > 0) {
+        int turns;
+        if (change_mod == HEX) {
+            turns = 31;
+        } else turns = 15;
         move_up();
-        for(int i=0;i<turns;i++)move_right();
+        for (int i = 0; i < turns; i++)move_right();
         return;
     }
     for (int i = 0; i < 2; i++) {
@@ -107,17 +101,14 @@ void move_left() {
 }
 
 void move_right() {
-    if(cur.x==58||cur.x==57&&change_mod==ASCII)
-    {
+    if (cur.x == 58 || (cur.x == 57 && change_mod == ASCII)) {
         int turns;
-        if(change_mod==HEX)
-        {
-            turns=31;
-        }else turns=15;
+        if (change_mod == HEX) {
+            turns = 31;
+        } else turns = 15;
         move_down();
-        for(int i=0;i<turns;i++)move_left();
-        if(file_size<=inFile.x+inFile.y)
-        {move_left();}
+        for (int i = 0; i < turns; i++)move_left();
+        if (file_size <= inFile.x + inFile.y) { move_left(); }
         return;
     }
     for (int i = 0; i < 2; i++) {

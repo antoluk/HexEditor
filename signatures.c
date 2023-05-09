@@ -37,8 +37,8 @@ unsigned char *signcheck() {
     for (int i = 0; i < sign_arr_size; i++) {
         strcpy(U2C extension, "");
         size = fread(buf, sizeof(char), strlen(signatures[i].file_signature) / 2, fp);
-        for (int j = 0; j < size; j++) {
-            if (buf[j] > 255)buf[j] -= 255;
+        for (long unsigned int j = 0; j < size; j++) {
+           // if (buf[j] > 255)buf[j] -= 255;
             sprintf(U2C signbuf, "%02X", buf[j]);
             strcat(U2C extension, U2C signbuf);
         }
