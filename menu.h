@@ -12,6 +12,7 @@
 
 extern WINDOW *main_win;
 extern char *filename;
+extern char *filepath;
 extern int file_size;
 extern int letter;
 extern struct node *stack;

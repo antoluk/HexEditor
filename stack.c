@@ -28,7 +28,7 @@ void pop(struct node **stack) {
         dump_offset = node->s_dump_offset;
         (*stack) = (*stack)->next;
         free(node);
-        if (!(fp = fopen(filename, "rb+"))) {
+        if (!(fp = fopen(filepath, "rb+"))) {
             printf("file can't be open\n");
             exit(100);
         }
