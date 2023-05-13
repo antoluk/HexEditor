@@ -10,21 +10,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ncurses.h>
+#include "../headers/defines.h"
 
 #define PNG_sign_size 8
 
 extern char* filepath;
 
-struct IHDR {
-    long x;
-    long y;
-    long bit_depth;
-    long color;
-    long interplaced;
-};
 
-struct IHDR png_analyse();
+IHDR_t png_analyse();
 
-struct IHDR IHDR_analyse(unsigned char *chunk_buf);
+IHDR_t IHDR_analyse(unsigned char *chunk_buf);
 
 #endif //HEXEDITORSECONDTRY_PNG_ANALYSE_H

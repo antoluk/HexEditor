@@ -2,7 +2,7 @@
 // Created by antoluk on 7.5.23.
 //
 
-#include "elf_analyse.h"
+#include "../headers/elf_analyse.h"
 Elf32_Ehdr_s read_elf()
 {
     Elf32_Ehdr_s ehdr;

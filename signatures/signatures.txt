@@ -1,7 +1,5 @@
 elf
 7F454C46
-rpm
-EDABEEDB
 bin
 53503031
 PDB
@@ -10,13 +8,11 @@ DBA
 BEBAFECA
 DBA
 00014244
-TDA
-00014454
 ico
 00000100
-tar.z using Lempel-Ziv-Welch algorithm
+tar.z LZW algorithm
 1F9D
-tar.z using LZH algorithm
+tar.z LZH algorithm
 1FA0
 exe
 5A4D

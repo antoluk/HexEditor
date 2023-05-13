@@ -2,12 +2,12 @@
 // Created by antoluk on 12.3.23.
 //
 
-#include "png_analyse.h"
+#include "../headers/png_analyse.h"
 
 #define U2C (char*)
 
 
-struct IHDR png_analyse() {
+ IHDR_t png_analyse() {
     FILE *fp;
     int chunk_size = 0;
     if (!(fp = fopen(filepath, "rb"))) {
@@ -30,15 +30,15 @@ struct IHDR png_analyse() {
 
         return IHDR_analyse(chunk);
     }
-    struct IHDR fail;
+    IHDR_t fail;
     fail.x = 0;
     fail.y = 0;
     return fail;
 }
 
 
-struct IHDR IHDR_analyse(unsigned char *chunk_buf) {
-    struct IHDR IHDR;
+IHDR_t IHDR_analyse(unsigned char *chunk_buf) {
+    IHDR_t IHDR;
     unsigned char resY_str[8] = "";
     unsigned char resX_str[8] = "";
     unsigned char buf[4];

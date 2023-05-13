@@ -1,10 +1,10 @@
 //
 // Created by antoluk on 5.4.23.
 //
-#include "event_handler.h"
-#include "stack.h"
+#include "../headers/event_handler.h"
+#include "../headers/stack.h"
 
-int letter = 1;
+extern int letter;
 
 
 int event() {

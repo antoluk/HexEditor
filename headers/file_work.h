@@ -14,8 +14,8 @@
 #define STRLEN 16
 
 extern unsigned char bufer[20][16];
+extern int last_size;
 int change_file(int symbol);
-
 int get_dump();
 
 #endif //HEXEDITORSECONDTRY_FILE_WORK_H

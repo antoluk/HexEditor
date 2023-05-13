@@ -1,14 +1,14 @@
 //
 // Created by antoluk on 12.3.23.
 //
-#include "signatures.h"
+#include "../headers/signatures.h"
 
 #define U2C (char*)
 
 int signatures_init(struct sign *signatures) {
-    FILE *Signatures_file = fopen("signatures.txt", "r");
+    FILE *Signatures_file = fopen("./signatures/signatures.txt", "r");
     if (!Signatures_file) {
-        printf("File with signatures cannot be open");
+        printf("File with signatures cannot be open\n");
         exit(1);
     }
     int sign_arr_size = 0;
@@ -31,6 +31,7 @@ unsigned char *signcheck() {
     unsigned char signbuf[8];
     fp = fopen(filepath, "rb");
     if (!fp) {
+        endwin();
         printf("file can't be open\n");
         exit(1);
     }
@@ -38,7 +39,6 @@ unsigned char *signcheck() {
         strcpy(U2C extension, "");
         size = fread(buf, sizeof(char), strlen(signatures[i].file_signature) / 2, fp);
         for (long unsigned int j = 0; j < size; j++) {
-           // if (buf[j] > 255)buf[j] -= 255;
             sprintf(U2C signbuf, "%02X", buf[j]);
             strcat(U2C extension, U2C signbuf);
         }

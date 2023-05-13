@@ -2,8 +2,8 @@
 // Created by antoluk on 24.4.23.
 //
 
-#include "menu.h"
-#include "stack.h"
+#include "../headers/menu.h"
+#include "../headers/stack.h"
 
 #define STYLE_CURSOR 14
 

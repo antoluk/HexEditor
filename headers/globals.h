@@ -4,16 +4,22 @@
 
 #ifndef HEXEDITORSECONDTRY_GLOBALS_H
 #define HEXEDITORSECONDTRY_GLOBALS_H
+#include "../headers/defines.h"
 
 WINDOW *main_win = NULL, *analyse_win = NULL;
-#define STRLEN 16
-#define STYLE_CURSOR 14
+IHDR_t IHDR;
+Elf32_Ehdr_s ehdr;
+change change_mod = HEX;
+Point cur, ccur, inFile;
 int dump_offset = 0;
-extern int letter;
+int letter=1;
 unsigned char bufer[20][16];
 int last_size = 0, file_size = 0;
 char *filepath;
 char *filename;
 FILE *fp;
+struct node *stack;
+int file_type = 0;
+const unsigned char *ext;
 
 #endif //HEXEDITORSECONDTRY_GLOBALS_H
