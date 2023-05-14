@@ -2,8 +2,8 @@
 // Created by antoluk on 5.4.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_EVENT_HANDLER_H
-#define HEXEDITORSECONDTRY_EVENT_HANDLER_H
+#ifndef HEXEDITOR_EVENT_HANDLER_H
+#define HEXEDITOR_EVENT_HANDLER_H
 
 #include <unistd.h>
 #include <ncurses.h>
@@ -38,4 +38,4 @@ void move_up();
 void move_down();
 
 
-#endif //HEXEDITORSECONDTRY_EVENT_HANDLER_H
+#endif //HEXEDITOR_EVENT_HANDLER_H

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include "../headers/signatures.h"
 #include <ncurses.h>
 #include "../headers/event_handler.h"
 #include "../headers/globals.h"
@@ -8,7 +7,6 @@
 #include <elf.h>
 #include <libgen.h>
 #include <sys/stat.h>
-#include "../headers/defines.h"
 #include "../headers/analyse.h"
 
 
@@ -43,8 +41,6 @@ int main(int argc, char *argv[]) {
     }
     filename = basename(filepath);
     int key;
-    struct sign signatures[50];
-    signatures_init(signatures);
 
     unsigned char cur_ch;
     int old_offset = 0, str_num, changed = 0;

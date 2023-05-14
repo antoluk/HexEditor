@@ -2,8 +2,8 @@
 // Created by antoluk on 3.5.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_FILE_WORK_H
-#define HEXEDITORSECONDTRY_FILE_WORK_H
+#ifndef HEXEDITOR_FILE_WORK_H
+#define HEXEDITOR_FILE_WORK_H
 
 #include <stdio.h>
 #include <string.h>
@@ -18,4 +18,4 @@ extern int last_size;
 int change_file(int symbol);
 int get_dump();
 
-#endif //HEXEDITORSECONDTRY_FILE_WORK_H
+#endif //HEXEDITOR_FILE_WORK_H

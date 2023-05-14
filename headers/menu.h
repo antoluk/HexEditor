@@ -2,8 +2,8 @@
 // Created by antoluk on 24.4.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_MENU_H
-#define HEXEDITORSECONDTRY_MENU_H
+#ifndef HEXEDITOR_MENU_H
+#define HEXEDITOR_MENU_H
 
 #include <ncurses.h>
 #include <stdlib.h>
@@ -23,4 +23,4 @@ void go_to();
 
 void exit_win();
 
-#endif //HEXEDITORSECONDTRY_MENU_H
+#endif //HEXEDITOR_MENU_H

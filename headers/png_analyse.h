@@ -2,8 +2,8 @@
 // Created by antoluk on 12.3.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_PNG_ANALYSE_H
-#define HEXEDITORSECONDTRY_PNG_ANALYSE_H
+#ifndef HEXEDITOR_PNG_ANALYSE_H
+#define HEXEDITOR_PNG_ANALYSE_H
 
 #include <stdio.h>
 #include <string.h>
@@ -21,4 +21,4 @@ IHDR_t png_analyse();
 
 IHDR_t IHDR_analyse(unsigned char *chunk_buf);
 
-#endif //HEXEDITORSECONDTRY_PNG_ANALYSE_H
+#endif //HEXEDITOR_PNG_ANALYSE_H

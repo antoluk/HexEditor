@@ -2,8 +2,8 @@
 // Created by antoluk on 25.4.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_GLOBALS_H
-#define HEXEDITORSECONDTRY_GLOBALS_H
+#ifndef HEXEDITOR_GLOBALS_H
+#define HEXEDITOR_GLOBALS_H
 #include "../headers/defines.h"
 
 WINDOW *main_win = NULL, *analyse_win = NULL;
@@ -22,4 +22,4 @@ struct node *stack;
 int file_type = 0;
 const unsigned char *ext;
 
-#endif //HEXEDITORSECONDTRY_GLOBALS_H
+#endif //HEXEDITOR_GLOBALS_H

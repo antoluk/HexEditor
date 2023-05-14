@@ -2,8 +2,8 @@
 // Created by antoluk on 7.5.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_ELF_ANALYSE_H
-#define HEXEDITORSECONDTRY_ELF_ANALYSE_H
+#ifndef HEXEDITOR_ELF_ANALYSE_H
+#define HEXEDITOR_ELF_ANALYSE_H
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

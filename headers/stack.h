@@ -2,8 +2,8 @@
 // Created by antoluk on 3.5.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_STACK_H
-#define HEXEDITORSECONDTRY_STACK_H
+#ifndef HEXEDITOR_STACK_H
+#define HEXEDITOR_STACK_H
 
 #include "event_handler.h"
 
@@ -22,4 +22,4 @@ void push(struct node **, int data);
 
 void pop(struct node **);
 
-#endif //HEXEDITORSECONDTRY_STACK_H
+#endif //HEXEDITOR_STACK_H

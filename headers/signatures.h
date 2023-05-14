@@ -2,8 +2,8 @@
 // Created by antoluk on 12.3.23.
 //
 
-#ifndef HEXEDITORSECONDTRY_SIGNATURES_H
-#define HEXEDITORSECONDTRY_SIGNATURES_H
+#ifndef HEXEDITOR_SIGNATURES_H
+#define HEXEDITOR_SIGNATURES_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,4 +19,4 @@ int signatures_init(struct sign *signatures);
 
 unsigned char *signcheck();
 
-#endif //HEXEDITORSECONDTRY_SIGNATURES_H
+#endif //HEXEDITOR_SIGNATURES_H
