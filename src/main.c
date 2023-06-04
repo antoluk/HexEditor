@@ -195,7 +195,7 @@ void printIHDR(IHDR_t IHDR_s) {
 }
 
 void printELF(Elf32_Ehdr_s ehdr_s) {
-    switch (ehdr_s.class) {
+    switch (ehdr_s.f_class) {
         case ELFCLASS32:
             mvwprintw(analyse_win, 1, 1, "file is ELF32. ");
             break;
